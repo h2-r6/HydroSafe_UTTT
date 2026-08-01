@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>HydroSafe · UTTT</title>
+
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#0a1512" />
+  <link rel="icon" href="/public/icons/favicon.png" />
+  <link rel="apple-touch-icon" href="/public/icons/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="HydroSafe" />
+  <meta name="mobile-web-app-capable" content="yes" />
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="/vue/inline-styles.css" />
+</head>
+<body>
+  <div id="app"></div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.runtime.global.prod.js"></script>
+  <script src="https://unpkg.com/vue3-sfc-loader@0.9.5/dist/vue3-sfc-loader.js"></script>
+  <script src="/public/js/util.js"></script>
+  <script>
+    // Aplicar el tema guardado ANTES de montar Vue, para no hacer flash claro->oscuro.
+    document.documentElement.setAttribute("data-theme", localStorage.getItem("hydrosafe_tema") || "claro");
+
+    const { loadModule } = window["vue3-sfc-loader"];
+    const { createApp, h, defineAsyncComponent } = Vue;
+
+    // Vistas del monitor y del admin. Se cargan solo cuando se navega a ellas.
+    const VISTAS = {
+      login: "/vue/views/login-page.vue",
+      dashboard: "/vue/views/dashboard-page.vue",
+      alertas: "/vue/views/alertas-page.vue",
+      reportes: "/vue/views/reportes-page.vue",
+      docs: "/vue/views/docs-page.vue",
+      "admin/parametros": "/vue/views/admin-parametros.vue",
+      "admin/usuarios": "/vue/views/admin-usuarios.vue",
+      "admin/configuracion": "/vue/views/admin-configuracion.vue",
+      "admin/registros": "/vue/views/admin-registros.vue",
+    };
+
+    const opcionesSfc = {
+      moduleCache: { vue: Vue },
+      async getFile(url) {
+        const res = await fetch(url);
+        if (!res.ok) throw Object.assign(new Error(res.statusText + " " + url), { res: res });
+        return { getContentData: asBinary => asBinary ? res.arrayBuffer() : res.text() };
+      },
+      addStyle() { /* estilos centralizados en inline-styles.css */ },
+    };
+
+    const cache = {};
+    function componentePara(vista) {
+      if (!cache[vista]) {
+        cache[vista] = defineAsyncComponent(() => loadModule(VISTAS[vista], opcionesSfc));
+      }
+      return cache[vista];
+    }
+
+    function rutaActual() {
+      const hash = window.location.hash.replace(/^#\//, "");
+      if (VISTAS[hash]) return hash;
+      if (!HydroSafeAuth.getToken()) return "login";
+      return HydroSafeAuth.esAdmin() ? "admin/parametros" : "dashboard";
+    }
+
+    const App = {
+      data() { return { vista: rutaActual() }; },
+      created() {
+        window.addEventListener("hashchange", () => { this.vista = rutaActual(); });
+      },
+      render() { return h(componentePara(this.vista)); },
+    };
+
+    createApp(App).mount("#app");
+
+    // Registro del service worker (PWA instalable + shell rapido/offline).
+    // La API nunca se cachea -- ver sw.js para el por que.
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/sw.js").catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
