@@ -1,10 +1,6 @@
 # HydroSafe UTTT
 
-Sistema de monitoreo de calidad del agua. Backend Java sin frameworks (cero
-dependencias externas — compila y corre con solo el JDK), frontend Vue sin
-build step. Panel Admin separado, tiempo real vía SSE, exportación real a
-CSV/Excel/PDF, seguridad reforzada, página de Documentación, y un sistema de
-diseño propio ("Cisterna") en vez del típico dashboard azul de SaaS.
+Sistema de monitoreo de calidad del agua.
 
 ## Estructura
 
