@@ -6,23 +6,6 @@ build step. Panel Admin separado, tiempo real vía SSE, exportación real a
 CSV/Excel/PDF, seguridad reforzada, página de Documentación, y un sistema de
 diseño propio ("Cisterna") en vez del típico dashboard azul de SaaS.
 
-## Credenciales de prueba
-
-- Monitor: `ing.mendoza@uttt.edu.mx` / `hydrosafe2026`
-- Admin:   `admin@uttt.edu.mx` / `admin2026`
-
-## Correr
-
-```bash
-cd HydroSafe
-mkdir -p out
-javac -encoding UTF-8 -d out $(find src/main/java -name "*.java")
-cp -r src/main/resources/* out/
-java -cp out mx.edu.uttt.hydrosafe.Main
-```
-
-Abre `http://localhost:7000`
-
 ## Estructura
 
 ```
