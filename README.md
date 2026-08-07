@@ -1,6 +1,26 @@
-# HydroSafe UTTT
+# HydroSafe (UTTT)
 
-Sistema de monitoreo de calidad del agua.
+**Proyecto:** Sistema de Monitoreo de la Calidad del Agua
+
+**Autores:**
+* Maria Fernanda Aldana Jiménez
+* Natali Isabel Chávez Alpízar
+* Hiyadir Raúlciel Barrera Cuervo
+
+**Universidad Tecnológica de Tula-Tepeji**
+
+**Programa Educativo:** Ingeniería en Tecnologías de la Información, área Infraestructura de Redes Inteligentes y Ciberseguridad
+
+**Empresa:** Universidad Tecnológica de Tula-Tepeji
+
+**Asesor Académico:** 
+* M. en C. Odisey Yasmin Porras Beltrán
+  
+**Asesores Colaboradores:** 
+* Marisol Reséndiz Vega
+* Mario Herrera Telles
+
+**2026**
 
 ## Estructura
 
