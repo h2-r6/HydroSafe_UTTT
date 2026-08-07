@@ -5,7 +5,7 @@
 **Autores:**
 * Maria Fernanda Aldana Jiménez
 * Natali Isabel Chávez Alpízar
-* Hiyadir Raúlciel Barrera Cuervo
+* Hiyadir Barrera 
 
 **Universidad Tecnológica de Tula-Tepeji**
 
